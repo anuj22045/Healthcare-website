@@ -33,8 +33,11 @@ app.get("/", (req, res) => {
   }
 });
 
+// app.get("/login", (req, res) => {
+//   res.render("login", { errorMessage: null });
+// });
 app.get("/login", (req, res) => {
-  res.render("login", { errorMessage: null });
+  res.render("login", { cartCount: 0 }); // Default value
 });
 
 app.post("/login", (req, res) => {
