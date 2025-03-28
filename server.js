@@ -27,7 +27,7 @@ let users = [
 
 app.get("/", (req, res) => {
   if (req.session.user) {
-    res.redirect("/dashboard");
+    res.redirect("/home");
   } else {
     res.redirect("/login");
   }
@@ -52,7 +52,7 @@ app.post("/login", (req, res) => {
       id: user.id,
       username: user.username,
     };
-    res.redirect("/dashboard");
+    res.redirect("/home");
   } else {
     res.render("login", { errorMessage: "Invalid username or password" });
   }
