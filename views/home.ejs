@@ -4,13 +4,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediCare - Your Health Partner</title>
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-    <%- include('header') %>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>Medi<span>Care</span></h1>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <i class="fa-solid fa-xmark close-menu" onclick="hideMenu()"></i>
+                <ul>
+                    <li><a href="/" class="active">Home</a></li>
+                    <li><a href="/services">Services</a></li>
+                    <li><a href="/doctors">Doctors</a></li>
+                    <li><a href="/appointments">Appointments</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
+            <i class="fa-solid fa-bars open-menu" onclick="showMenu()"></i>
+        </nav>
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Your Health Is Our Priority</h1>
+                <p>Access quality healthcare services from the comfort of your home. Connect with expert doctors and get
+                    personalized care.</p>
+                <div class="hero-buttons">
+                    <a href="/appointments" class="btn btn-primary">Book Appointment</a>
+                    <a href="/services" class="btn btn-secondary">Our Services</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="/api/placeholder/600/400" alt="Doctor with patient">
+            </div>
+        </div>
+    </header>
 
+    <section class="features" id="services-section">
+        <h2 class="section-title">Our Services</h2>
+        <div class="feature-cards" id="services-container">
+            <% services.forEach(function(service) { %>
+                <div class="feature-card" data-service-id="<%= service.id %>">
+                    <div class="feature-icon">
+                        <i class="fa-solid <%= service.icon %>"></i>
+                    </div>
+                    <h3>
+                        <%= service.name %>
+                    </h3>
+                    <p>
+                        <%= service.description %>
+                    </p>
+                    <a href="/services/<%= service.id %>" class="service-link btn btn-outline">Learn More</a>
+                </div>
+                <% }); %>
+        </div>
+        <div class="view-all-container">
+            <a href="/services" id="view-all-services" class="btn btn-secondary">View All Services</a>
+        </div>
+    </section>
 
+    <section class="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Create Account</h3>
+                <p>Sign up and complete your health profile with essential information.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Find a Doctor</h3>
+                <p>Browse through our network of specialists and choose the right one.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Book Appointment</h3>
+                <p>Select a convenient time slot and schedule your consultation.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Get Care</h3>
+                <p>Connect with your doctor via video call or in-person visit.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="doctors">
+        <h2 class="section-title">Our Top Doctors</h2>
+        <div class="doctor-cards">
+            <% doctors.forEach(function(doctor) { %>
+                <div class="doctor-card">
+                    <div class="doctor-image">
+                        <img src="<%= doctor.image %>" onerror="this.src='/api/placeholder/300/300'"
+                            alt="<%= doctor.name %>">
+                    </div>
+                    <h3>
+                        <%= doctor.name %>
+                    </h3>
+                    <p class="specialty">
+                        <%= doctor.specialty %>
+                    </p>
+                    <p class="experience">
+                        <%= doctor.experience %>
+                    </p>
+                    <a href="/doctors/<%= doctor.id %>" class="btn btn-outline">View Profile</a>
+                    <a href="/appointments?doctor=<%= doctor.id %>" class="btn btn-primary">Book Now</a>
+                </div>
+                <% }); %>
+        </div>
+        <div class="view-all-container">
+            <a href="/doctors" class="btn btn-secondary">View All Doctors</a>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <h2 class="section-title">What Our Patients Say</h2>
+        <div class="testimonial-cards">
+            <div class="testimonial-card">
+                <div class="rating">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <p>"The video consultation was seamless and I got the medical advice I needed without leaving home.
+                    Highly recommend!"</p>
+                <div class="testimonial-author">
+                    <h4>Robert Taylor</h4>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="rating">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <p>"Booking an appointment was incredibly easy. The doctor was professional and took the time to address
+                    all my concerns."</p>
+                <div class="testimonial-author">
+                    <h4>Jessica Martinez</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="cta-content">
+            <h2>Ready to prioritize your health?</h2>
+            <p>Join thousands of satisfied patients who have transformed their healthcare experience with HealthPlus.
+            </p>
+            <a href="/appointments" class="btn btn-primary">Book an Appointment</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>HealthPlus</h3>
+                <p>Your trusted partner for convenient and quality healthcare services.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services">Services</a></li>
+                    <li><a href="/doctors">Doctors</a></li>
+                    <li><a href="/appointments">Appointments</a></li>
+                    <li><a href="/about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><i class="fa-solid fa-phone"></i> +1 234 567 8900</li>
+                    <li><i class="fa-solid fa-envelope"></i> info@healthplus.com</li>
+                    <li><i class="fa-solid fa-location-dot"></i> 123 Healthcare Ave, Medical City</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Newsletter</h3>
+                <p>Subscribe to our newsletter for health tips and updates.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your Email">
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 HealthPlus. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showMenu() {
+            document.getElementById("navLinks").style.right = "0";
+        }
+
+        function hideMenu() {
+            document.getElementById("navLinks").style.right = "-200px";
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Service navigation
+            const serviceCards = document.querySelectorAll('.feature-card');
+            serviceCards.forEach(card => {
+                card.addEventListener('click', function (e) {
+                    if (!e.target.classList.contains('service-link')) {
+                        const serviceId = this.getAttribute('data-service-id');
+                        window.location.href = `/services/${serviceId}`;
+                    }
+                });
+            });
+
+            // View all services button
+            const viewAllBtn = document.getElementById('view-all-services');
+            if (viewAllBtn) {
+                viewAllBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    window.location.href = '/services';
+                });
+            }
+
+            // Fallback for missing images
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('error', function () {
+                    const width = this.width || 300;
+                    const height = this.height || 300;
+                    this.src = `/api/placeholder/${width}/${height}`;
+                });
+            });
+
+            // Fetch services from API (alternative approach)
+            /*
+            fetch('/api/featured-services')
+                .then(response => response.json())
+                .then(services => {
+                    const servicesContainer = document.getElementById('services-container');
+                    if (!servicesContainer) return;
+                    
+                    servicesContainer.innerHTML = '';
+                    
+                    services.forEach(service => {
+                        const card = document.createElement('div');
+                        card.className = 'feature-card';
+                        card.setAttribute('data-service-id', service.id);
+                        
+                        card.innerHTML = `
+                            <div class="feature-icon">
+                                <i class="fa-solid ${service.icon}"></i>
+                            </div>
+                            <h3>${service.name}</h3>
+                            <p>${service.description}</p>
+                            <a href="/services/${service.id}" class="service-link btn btn-outline">Learn More</a>
+                        `;
+                        
+                        servicesContainer.appendChild(card);
+                    });
+                })
+                .catch(error => console.error('Error loading services:', error));
+            */
+        });
+    </script>
 </body>
 
 </html>

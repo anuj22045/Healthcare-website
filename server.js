@@ -6,6 +6,7 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -16,14 +17,18 @@ app.use(
     secret: "MediConnect-project-secret-key",
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 3600000 }, // 1 hour
+    cookie: { maxAge: 3600000 },
   })
 );
 
 let users = [
-  { id: 1, username: "Admin1", password: "password123" },
-  { id: 2, username: "Admin2", password: "password456" },
+  { id: 1, username: "anuj", password: "1234" },
+  { id: 2, username: "Admin", password: "0000" },
 ];
+
+app.get("/", (req, res) => {
+  res.render("home");
+});
 
 app.get("/", (req, res) => {
   if (req.session.user) {
@@ -37,7 +42,7 @@ app.get("/", (req, res) => {
 //   res.render("login", { errorMessage: null });
 // });
 app.get("/login", (req, res) => {
-  res.render("login", { cartCount: 0 }); // Default value
+  res.render("login", { cartCount: 0 });
 });
 
 app.post("/login", (req, res) => {
@@ -95,6 +100,35 @@ app.get("/dashboard", (req, res) => {
 app.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/login");
+});
+
+app.get("/home", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  res.render("home", { user: req.session.user });
+});
+
+app.get("/home", (req, res) => {
+  const images = [
+    "/images/carousel-image-1.jpg",
+    "/images/carousel-img-2.jpg",
+    "/images/carousel-img-3.jpg",
+    "/images/carousel-img-4.jpg",
+  ];
+  res.render("home", { images });
+  console.log(images);
+});
+
+app.get("/order-prescription", (req, res) => {
+  const steps = [
+    "Upload a photo of your prescription",
+    "Add delivery address and place the order",
+    "We will call you to confirm the medicines",
+    "Now, sit back! Your medicines will get delivered at your doorstep",
+  ];
+
+  res.render("order-prescription", { steps });
 });
 
 app.use((req, res) => {
