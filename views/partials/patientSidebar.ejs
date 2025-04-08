@@ -1,4 +1,5 @@
-<div class="w-16 bg-purple-900 min-h-screen flex flex-col justify-center py-4 space-y-10 pl-4">
+<!-- Sidebar -->
+<div class="w-16 bg-purple-900 min-h-screen flex flex-col justify-center py-4 space-y-10 pl-4 relative z-10">
     <a href="/patient">
         <img src="/images/home.png" alt="Home" class="w-7 h-8" />
     </a>
@@ -14,7 +15,37 @@
     <a href="/patient/settings">
         <img src="/images/Settings.png" alt="Settings" class="w-7 h-8" />
     </a>
-    <a href="/logout" class="mt-auto">
+
+    <!-- Logout button triggers modal -->
+    <button onclick="openLogoutModal()" class="mt-auto">
         <img src="/images/sign_out.png" alt="Logout" class="w-7 h-8" />
-    </a>
+    </button>
 </div>
+
+<!-- Logout Confirmation Modal -->
+<div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-6 rounded-lg shadow-xl text-center max-w-sm w-full">
+        <h2 class="text-lg font-semibold mb-4">Are you sure you want to logout?</h2>
+        <div class="flex justify-center gap-4">
+            <button onclick="confirmLogout()"
+                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Yes</button>
+            <button onclick="closeLogoutModal()"
+                class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Script -->
+<script>
+    function openLogoutModal() {
+        document.getElementById('logoutModal').classList.remove('hidden');
+    }
+
+    function closeLogoutModal() {
+        document.getElementById('logoutModal').classList.add('hidden');
+    }
+
+    function confirmLogout() {
+        window.location.href = '/logout';
+    }
+</script>
