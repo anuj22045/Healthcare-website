@@ -4,9 +4,19 @@ const path = require("path");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
+const session = require("express-session");
 dotenv.config(); // Load env variables
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
+
+app.use(
+  session({
+    secret: "mySecretKey123", // ✅ Change this secret key in production
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 // DB Connection
 connectDB();
@@ -20,6 +30,7 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.use("/", dashboardRoutes);
 // Routes
 const authRoutes = require("./routes/authRoutes");
 app.use("/", authRoutes);

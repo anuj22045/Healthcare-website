@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-sky-200 min-h-screen font-sans">
+    <!-- Sidebar -->
+    <div class="flex">
+        <%- include('../partials/patientSidebar') %>
+
+            <!-- Main Content -->
+            <div class="flex-1 p-6">
+                <!-- Header -->
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-3xl font-bold text-purple-900">Dashboard</h1>
+                    <div class="flex items-center gap-4">
+                        <input type="text" placeholder="Search" class="px-2 py-1 rounded border border-gray-400" />
+                        <i class="fas fa-bell text-purple-800"></i>
+                        <img src="https://i.ibb.co/VDC2FjC/avatar.png" class="w-8 h-8 rounded-full" alt="User" />
+                    </div>
+                </div>
+
+                <!-- Welcome -->
+                <div class="text-center mb-6">
+                    <img src="/images/heartlogin.png" class="w-16 mx-auto" />
+                    <h2 class="text-xl font-semibold text-purple-800">Welcome User</h2>
+                </div>
+
+                <!-- Grid Layout -->
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Patient Details -->
+                    <div class="bg-blue-900 text-white p-4 rounded-lg col-span-1 space-y-2">
+                        <h3 class="text-lg font-semibold">Patient Details</h3>
+                        <p>Age: 35</p>
+                        <p>Weight: 80 KG</p>
+                        <p>Height: 182 cm</p>
+                        <p>Blood: O+</p>
+                    </div>
+
+                    <!-- Today Appointment -->
+                    <div class="bg-blue-900 text-white p-4 rounded-lg col-span-1">
+                        <h3 class="text-lg font-semibold mb-2">Today</h3>
+                        <div class="flex flex-col items-center">
+                            <img src="https://i.ibb.co/xsRnq9g/doctor-icon.png" class="w-14 mb-2" />
+                            <p class="text-sm font-semibold">Dr. XYZ</p>
+                            <p>H.O.D. Surgery</p>
+                            <hr class="my-2 border-white border-dashed">
+                            <p>Date: 15-04-24</p>
+                            <p>Time: 10:30 AM</p>
+                        </div>
+                    </div>
+
+                    <!-- Requests -->
+                    <div class="bg-blue-900 text-white p-4 rounded-lg col-span-1">
+                        <h3 class="text-lg font-semibold mb-2">Requests</h3>
+                        <p>Total Requests Raised: <span class="font-bold">00</span></p>
+                        <p>Total Active Requests: <span class="font-bold">00</span></p>
+                        <p>Prescriptions Issued: <span class="font-bold">00</span></p>
+                    </div>
+                </div>
+
+                <!-- Past Treatments -->
+                <div class="bg-blue-900 text-white p-4 rounded-lg mt-6">
+                    <h3 class="text-lg font-semibold mb-4">Past Treatments</h3>
+                    <div class="space-y-3">
+                        <div class="bg-blue-700 p-3 rounded-md flex justify-between items-center">
+                            <div>
+                                <p>18 Aug '23</p>
+                                <p>Treatment: <strong>Orthopedic</strong></p>
+                                <p>Doctor: Dr. XYZ</p>
+                            </div>
+                            <button class="bg-white text-blue-900 px-2 py-1 rounded">Note</button>
+                        </div>
+
+                        <div class="bg-blue-700 p-3 rounded-md flex justify-between items-center">
+                            <div>
+                                <p>2 Mar '24</p>
+                                <p>Treatment: <strong>ENT</strong></p>
+                                <p>Doctor: Dr. ABC</p>
+                            </div>
+                            <button class="bg-white text-blue-900 px-2 py-1 rounded">Note</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</body>
+
+</html>
