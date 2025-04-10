@@ -5,6 +5,17 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   role: String,
+  dob: Date,
+  age: Number,
+  gender: String,
+  phone: String,
+  address: String,
+  height: String,
+  weight: String,
+  // ✅ Medical Details
+  bloodGroup: String,
+  allergies: String,
+  medicalHistory: String,
 });
 
 module.exports = mongoose.model("User", userSchema);

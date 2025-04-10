@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const bcrypt = require("bcrypt");
 
 exports.showAuthPage = (req, res) => {
   res.render("auth");
@@ -8,13 +9,41 @@ exports.signupUser = async (req, res) => {
   const { name, email, password, role } = req.body;
 
   if (!name || !email || !password || !role) {
-    return res.send("Please fill all fields");
+    return res.send("❌ Please fill all fields");
   }
 
   try {
-    const user = new User({ name, email, password, role });
+    // ✅ Password hash
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // ✅ Create new user
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+    });
+
     await user.save();
-    res.send("✅ User signed up successfully!");
+
+    // ✅ Set session (safe structure)
+    req.session.user = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
+
+    // ✅ Redirect based on role
+    if (user.role === "patient") {
+      return res.redirect("/patient");
+    } else if (user.role === "doctor") {
+      return res.redirect("/doctor");
+    } else if (user.role === "admin") {
+      return res.redirect("/admin");
+    } else {
+      return res.send("❌ Unknown role");
+    }
   } catch (err) {
     console.error(err);
     res.send("❌ Error saving user");
@@ -29,16 +58,30 @@ exports.signinUser = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ email, password }); // 🔐 You should replace this with bcrypt in production
+    // ✅ Find user
+    const user = await User.findOne({ email });
 
     if (!user) {
-      return res.send("❌ Invalid credentials");
+      return res.send("❌ Invalid credentials (email)");
     }
 
-    // ✅ Save user in session
-    req.session.user = user;
+    // ✅ Match password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.send("❌ Invalid credentials (password)");
+    }
 
-    // ✅ Redirect based on user role
+    // ✅ Save user to session (safe version)
+    req.session.user = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
+
+    // console.log("SESSION SET:", req.session.user);
+
+    // ✅ Redirect
     if (user.role === "patient") {
       return res.redirect("/patient");
     } else if (user.role === "doctor") {

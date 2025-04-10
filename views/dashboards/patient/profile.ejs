@@ -9,27 +9,22 @@
 </head>
 
 <body class="bg-sky-300">
-
     <div class="flex min-h-screen">
         <!-- Sidebar -->
         <%- include('../../partials/patientSidebar') %>
-
-            <!-- Main Content -->
             <div class="flex-1 px-8 py-6">
-                <!-- Header -->
+
                 <div class="flex items-center justify-between">
-                    <div class="text-4xl font-semibold text-white">Medi Care</div>
+                    <div class="text-4xl font-semibold text-purple-900">MediCare</div>
                     <div class="flex items-center space-x-4">
                         <input type="text" placeholder="Search" class="px-3 py-1 rounded-md" />
                         <img src="/images/profile_avatar.png" alt="Avatar" class="w-10 h-10 rounded-full" />
                     </div>
                 </div>
 
-                <!-- Page Title -->
-                <h2 class="text-2xl text-center font-bold mt-6 text-white">MY PROFILE</h2>
+                <h2 class="text-2xl text-center font-bold mt-6 text-purple-900">MY PROFILE</h2>
                 <p class="text-center text-sm text-white mb-4">Please make sure the details provided are up to date.</p>
 
-                <!-- Tabs -->
                 <div class="flex space-x-4 justify-center mb-6">
                     <button onclick="showTab('basic')" class="px-6 py-2 bg-blue-900 text-white rounded-t-lg"
                         id="basicTab">Basic Details</button>
@@ -37,108 +32,107 @@
                         id="medicalTab">Medical Details</button>
                 </div>
 
-                <!-- Tab Contents -->
-                <div class="bg-blue-900 text-white p-6 rounded-lg">
-                    <!-- Basic Details -->
-                    <div id="basicDetails">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label>Name</label>
-                                <input type="text" class="w-full px-3 py-2 rounded text-black"
-                                    placeholder="Enter name" />
-                            </div>
-                            <div>
-                                <label>Date of Birth</label>
-                                <input type="date" class="w-full px-3 py-2 rounded text-black" />
-                            </div>
-                            <div>
-                                <label>Gender</label>
-                                <div class="space-x-4">
-                                    <label><input type="radio" name="gender" /> Male</label>
-                                    <label><input type="radio" name="gender" /> Female</label>
+                <form action="/patient/profile" method="POST">
+                    <div class="bg-blue-900 text-white p-6 rounded-lg">
+
+                        <div id="basicDetails">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label>Name</label>
+                                    <input type="text" name="name" class="w-full px-3 py-2 rounded text-black"
+                                        placeholder="Enter name" value="<%= user.name %>" />
+                                </div>
+                                <div>
+                                    <label>Date of Birth</label>
+                                    <input type="date" name="dob" class="w-full px-3 py-2 rounded text-black"
+                                        value="<%= user.dob ? user.dob.toISOString().split('T')[0] : '' %>" />
+                                </div>
+                                <div>
+                                    <label>Gender</label>
+                                    <div class="space-x-4">
+                                        <label><input type="radio" name="gender" value="Male" <%=user.gender==='Male'
+                                                ? 'checked' : '' %> /> Male</label>
+                                        <label><input type="radio" name="gender" value="Female"
+                                                <%=user.gender==='Female' ? 'checked' : '' %> /> Female</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label>Phone Number</label>
+                                    <input type="text" name="phone" class="w-full px-3 py-2 rounded text-black"
+                                        value="<%= user.phone %>" />
+                                </div>
+                                <div>
+                                    <label>Email</label>
+                                    <input type="email" name="email" class="w-full px-3 py-2 rounded text-black"
+                                        value="<%= user.email %>" readonly />
+                                </div>
+                                <div>
+                                    <label>Language</label>
+                                    <select name="language" class="w-full px-3 py-2 rounded text-black">
+                                        <option value="English" <%=user.language==='English' ? 'selected' : '' %>
+                                            >English
+                                        </option>
+                                        <option value="Hindi" <%=user.language==='Hindi' ? 'selected' : '' %>>Hindi
+                                        </option>
+                                        <option value="Other" <%=user.language==='Other' ? 'selected' : '' %>>Other
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-span-2">
+                                    <label>Address</label>
+                                    <input type="text" name="address" class="w-full px-3 py-2 rounded text-black"
+                                        value="<%= user.address %>" />
+                                </div>
+                                <div>
+                                    <label>Profile Photo</label><br />
+                                    <label for="profileUpload">
+                                        <img src="/images/avatar.png"
+                                            class="w-24 h-24 rounded-full cursor-pointer border" />
+                                    </label>
+                                    <input type="file" id="profileUpload" class="hidden" />
                                 </div>
                             </div>
-                            <div>
-                                <label>Phone Number</label>
-                                <input type="text" class="w-full px-3 py-2 rounded text-black" />
-                            </div>
-                            <div>
-                                <label>Email</label>
-                                <input type="email" class="w-full px-3 py-2 rounded text-black" />
-                            </div>
-                            <div>
-                                <label>Language</label>
-                                <select class="w-full px-3 py-2 rounded text-black">
-                                    <option>English</option>
-                                    <option>Hindi</option>
-                                    <option>Other</option>
-                                </select>
-                            </div>
-                            <div class="col-span-2">
-                                <label>Address</label>
-                                <input type="text" class="w-full px-3 py-2 rounded text-black" />
-                            </div>
-                            <div>
-                                <label>Profile Photo</label><br />
-                                <label for="profileUpload">
-                                    <img src="/images/avatar.png"
-                                        class="w-24 h-24 rounded-full cursor-pointer border" />
-                                </label>
-                                <input type="file" id="profileUpload" class="hidden" />
-                            </div>
                         </div>
-                        <div class="flex justify-end mt-6 space-x-4">
-                            <button class="bg-gray-400 px-4 py-2 rounded">Edit</button>
-                            <button class="bg-green-500 px-4 py-2 rounded">Save</button>
-                        </div>
-                    </div>
 
-                    <!-- Medical Details -->
-                    <div id="medicalDetails" style="display: none;">
-                        <div class="grid grid-cols-3 gap-4">
-                            <div>
-                                <label>Blood Group</label>
-                                <select class="w-full px-3 py-2 rounded text-black">
-                                    <option>A+</option>
-                                    <option>A-</option>
-                                    <option>B+</option>
-                                    <option>B-</option>
-                                    <option>O+</option>
-                                    <option>O-</option>
-                                    <option>AB+</option>
-                                    <option>AB-</option>
-                                </select>
+                        <!-- Medical Details -->
+                        <div id="medicalDetails" style="display: none;">
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <label>Blood Group</label>
+                                    <select name="bloodGroup" class="w-full px-3 py-2 rounded text-black">
+                                        <% const bloodGroups=["A+", "A-" , "B+" , "B-" , "O+" , "O-" , "AB+" , "AB-" ];
+                                            %>
+                                            <% bloodGroups.forEach(bg=> { %>
+                                                <option value="<%= bg %>" <%=user.bloodGroup===bg ? 'selected' : '' %>>
+                                                    <%= bg %>
+                                                </option>
+                                                <% }); %>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Height (cm)</label>
+                                    <input type="text" name="height" class="w-full px-3 py-2 rounded text-black"
+                                        value="<%= user.height %>" />
+                                </div>
+                                <div>
+                                    <label>Weight (kg)</label>
+                                    <input type="text" name="weight" class="w-full px-3 py-2 rounded text-black"
+                                        value="<%= user.weight %>" />
+                                </div>
                             </div>
-                            <div>
-                                <label>Height (cm)</label>
-                                <input type="text" class="w-full px-3 py-2 rounded text-black" />
-                            </div>
-                            <div>
-                                <label>Weight (kg)</label>
-                                <input type="text" class="w-full px-3 py-2 rounded text-black" />
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <label class="block mb-2">What illnesses or diseases have you had in past?</label>
-                            <div class="grid grid-cols-3 gap-3">
-                                <button class="bg-purple-600 px-4 py-2 rounded">Chickenpox</button>
-                                <button class="bg-purple-600 px-4 py-2 rounded">Malaria</button>
-                                <button class="bg-purple-600 px-4 py-2 rounded">Diabetes</button>
-                                <button class="bg-purple-600 px-4 py-2 rounded">Asthma</button>
-                                <button class="bg-purple-600 px-4 py-2 rounded">Cancer</button>
-                                <button class="bg-purple-600 px-4 py-2 rounded">Mumps</button>
-                                <button class="bg-purple-600 px-4 py-2 rounded">Influenza</button>
-                                <button class="bg-purple-600 px-4 py-2 rounded">Tuberculosis</button>
-                                <button class="bg-purple-600 px-4 py-2 rounded">Dengue</button>
-                                <button class="bg-purple-600 px-4 py-2 rounded">Others</button>
+                            <div class="mt-4">
+                                <label class="block mb-2">What illnesses or diseases have you had in past?</label>
+                                <textarea name="medicalHistory"
+                                    class="w-full px-3 py-2 rounded text-black"><%= user.medicalHistory %></textarea>
                             </div>
                         </div>
+
+                        <!-- Save Button (for both tabs) -->
                         <div class="flex justify-end mt-6 space-x-4">
-                            <button class="bg-gray-400 px-4 py-2 rounded">Edit</button>
-                            <button class="bg-green-500 px-4 py-2 rounded">Save</button>
+                            <button type="submit" class="bg-green-500 px-4 py-2 rounded">Save</button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
     </div>
 
@@ -149,7 +143,6 @@
             document.getElementById("medicalDetails").style.display = tab === "medical" ? "block" : "none";
         }
     </script>
-
 </body>
 
 </html>

@@ -27,7 +27,8 @@
                 <!-- Welcome -->
                 <div class="text-center mb-6">
                     <img src="/images/heartlogin.png" class="w-16 mx-auto" />
-                    <h2 class="text-xl font-semibold text-purple-800">Welcome User</h2>
+                    <h2 class="text-xl font-semibold text-purple-800">Welcome <%= user.name %>
+                    </h2>
                 </div>
 
                 <!-- Grid Layout -->
@@ -35,24 +36,38 @@
                     <!-- Patient Details -->
                     <div class="bg-blue-900 text-white p-4 rounded-lg col-span-1 space-y-2">
                         <h3 class="text-lg font-semibold">Patient Details</h3>
-                        <p>Age: 35</p>
-                        <p>Weight: 80 KG</p>
-                        <p>Height: 182 cm</p>
-                        <p>Blood: O+</p>
+                        <p>Age: <%= age || 'N/A' %>
+                        </p>
+                        <p>Weight: <%= user.weight || 'N/A' %> KG</p>
+                        <p>Height: <%= user.height || 'N/A' %> cm</p>
+                        <p>Blood: <%= user.bloodGroup || 'N/A' %>
+                        </p>
                     </div>
 
+                    <!-- Today Appointment -->
                     <!-- Today Appointment -->
                     <div class="bg-blue-900 text-white p-4 rounded-lg col-span-1">
                         <h3 class="text-lg font-semibold mb-2">Today</h3>
                         <div class="flex flex-col items-center">
-                            <img src="https://i.ibb.co/xsRnq9g/doctor-icon.png" class="w-14 mb-2" />
-                            <p class="text-sm font-semibold">Dr. XYZ</p>
-                            <p>H.O.D. Surgery</p>
-                            <hr class="my-2 border-white border-dashed">
-                            <p>Date: 15-04-24</p>
-                            <p>Time: 10:30 AM</p>
+                            <% if (appointment) { %>
+                                <img src="https://i.ibb.co/xsRnq9g/doctor-icon.png" class="w-14 mb-2" />
+                                <p class="text-sm font-semibold">
+                                    <%= appointment.doctor.name %>
+                                </p>
+                                <p>
+                                    <%= appointment.doctor.specialization || "Specialist" %>
+                                </p>
+                                <hr class="my-2 border-white border-dashed">
+                                <p>Date: <%= appointment.appointmentDate.toDateString() %>
+                                </p>
+                                <p>Time: <%= appointment.time || "10:30 AM" %>
+                                </p>
+                                <% } else { %>
+                                    <p>No appointment today</p>
+                                    <% } %>
                         </div>
                     </div>
+
 
                     <!-- Requests -->
                     <div class="bg-blue-900 text-white p-4 rounded-lg col-span-1">

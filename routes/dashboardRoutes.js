@@ -1,53 +1,51 @@
 const express = require("express");
 const router = express.Router();
+const patientController = require("../controllers/patientController");
+const { ensurePatient } = require("../middleware/auth");
 
-// Middleware to protect routes
+// 🔒 Middleware: Check if user is logged in
 const isLoggedIn = (req, res, next) => {
   if (req.session.user) return next();
-  res.redirect("/");
+  res.redirect("/login");
 };
 
-router.get("/patient", isLoggedIn, (req, res) => {
-  res.render("dashboards/patient", { user: req.session.user });
-});
+////////////////////////////////////////////////////
+// ✅ DASHBOARDS
+////////////////////////////////////////////////////
+
+router.get("/patient", ensurePatient, patientController.getDashboard);
 
 router.get("/doctor", isLoggedIn, (req, res) => {
+  if (req.session.user.role !== "doctor") return res.redirect("/login");
   res.render("dashboards/doctor", { user: req.session.user });
 });
 
 router.get("/admin", isLoggedIn, (req, res) => {
+  if (req.session.user.role !== "admin") return res.redirect("/login");
   res.render("dashboards/admin", { user: req.session.user });
 });
 
-router.get("/patient/profile", isLoggedIn, (req, res) => {
-  res.render("dashboards/patient/profile");
+////////////////////////////////////////////////////
+// ✅ PATIENT-SPECIFIC ROUTES
+////////////////////////////////////////////////////
+
+// 📄 Profile (GET + POST)
+router.get("/patient/profile", ensurePatient, patientController.getProfile);
+router.post("/patient/profile", ensurePatient, patientController.updateProfile);
+
+// 👨‍⚕️ View Doctors Page
+router.get("/patient/doctors", ensurePatient, (req, res) => {
+  res.render("dashboards/patient/doctors", { user: req.session.user });
 });
 
-///////////////////////////////////////////////////////////////////////
-
-// patient dashboard (HOME)
-router.get("/patient", isLoggedIn, (req, res) => {
-  res.render("dashboards/patient"); // ✅ NOT dashboards/patient/dashboard
+// 📬 Requests Page
+router.get("/patient/requests", ensurePatient, (req, res) => {
+  res.render("dashboards/patient/requests", { user: req.session.user });
 });
 
-// profile page
-router.get("/patient/profile", isLoggedIn, (req, res) => {
-  res.render("dashboards/patient/profile");
-});
-
-// doctors page
-router.get("/patient/doctors", isLoggedIn, (req, res) => {
-  res.render("dashboards/patient/doctors");
-});
-
-// requests page
-router.get("/patient/requests", isLoggedIn, (req, res) => {
-  res.render("dashboards/patient/requests");
-});
-
-// settings page
-router.get("/patient/settings", isLoggedIn, (req, res) => {
-  res.render("dashboards/patient/settings");
+// ⚙️ Settings Page
+router.get("/patient/settings", ensurePatient, (req, res) => {
+  res.render("dashboards/patient/settings", { user: req.session.user });
 });
 
 module.exports = router;

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Prescription Requests</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-sky-300 min-h-screen">
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <%- include('../../partials/doctorSidebar') %>
+
+            <!-- Main Content -->
+            <div class="flex-1 p-6 ml-16">
+                <h1 class="text-2xl font-bold text-purple-900 mb-4">Prescription Requests</h1>
+
+                <% if (requests.length===0) { %>
+                    <p class="text-red-500">No pending requests.</p>
+                    <% } else { %>
+                        <div class="space-y-4">
+                            <% requests.forEach(request=> { %>
+                                <div class="bg-blue-900 text-white p-4 rounded shadow">
+                                    <p><strong>Patient:</strong>
+                                        <%= request.patient.name %>
+                                    </p>
+                                    <p><strong>Issue:</strong>
+                                        <%= request.issue %>
+                                    </p>
+
+                                    <% if (request.images && request.images.length> 0) { %>
+                                        <div class="mt-2 flex space-x-2">
+                                            <% request.images.forEach(img=> { %>
+                                                <img src="/uploads/<%= img %>" alt="Uploaded Image"
+                                                    class="w-20 h-20 object-cover rounded" />
+                                                <% }) %>
+                                        </div>
+                                        <% } %>
+
+                                            <!-- Action Buttons -->
+                                            <div class="mt-4 space-x-2">
+                                                <form action="/doctor/approve/<%= request._id %>" method="POST"
+                                                    class="inline">
+                                                    <button class="bg-green-500 px-4 py-1 rounded">Approve</button>
+                                                </form>
+                                                <form action="/doctor/reject/<%= request._id %>" method="POST"
+                                                    class="inline">
+                                                    <button class="bg-red-500 px-4 py-1 rounded">Reject</button>
+                                                </form>
+                                            </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% } %>
+            </div>
+    </div>
+</body>
+
+</html>

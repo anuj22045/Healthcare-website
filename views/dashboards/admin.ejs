@@ -1,15 +1,92 @@
-p
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Patient Dashboard</title>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-green-50 text-center p-10">
-    <h1 class="text-3xl font-bold text-green-700">Welcome to Admin Dashboard</h1>
-    <p class="mt-4">Hello, <%= user.name || "Guest" %>!</p>
+<body class="bg-sky-200 min-h-screen font-sans">
+    <div class="flex">
+
+        <!-- Sidebar Include -->
+
+        <%- include('../partials/adminSidebar') %>
+
+            <!-- Main Content -->
+            <div class="flex-1 p-6 ml-16">
+
+                <!-- Header -->
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-3xl font-bold text-purple-900">Admin Dashboard</h1>
+                    <div class="flex items-center gap-4">
+                        <input type="text" placeholder="Search..." class="px-3 py-1 rounded border border-gray-300" />
+                        <img src="/images/profile_avatar.png" alt="Avatar" class="w-10 h-10 rounded-full" />
+                    </div>
+                </div>
+
+                <!-- Welcome Section -->
+                <div class="text-center mb-6">
+                    <img src="/images/heartlogin.png" class="w-16 mx-auto" />
+                    <h2 class="text-xl font-semibold text-purple-900">Welcome<%= user.name || "Guest" %>
+                    </h2>
+                    <p class="text-blue-900">Managing the hospital system at a glance!</p>
+                </div>
+
+                <!-- Cards Section -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <!-- Total Users -->
+                    <div class="bg-blue-900 text-white p-4 rounded-lg text-center">
+                        <h3 class="text-lg font-semibold">Total Users</h3>
+                        <p class="text-3xl font-bold">120</p>
+                    </div>
+
+                    <!-- Pending Doctor Approvals -->
+                    <div class="bg-blue-900 text-white p-4 rounded-lg text-center">
+                        <h3 class="text-lg font-semibold">Pending Doctor Approvals</h3>
+                        <p class="text-3xl font-bold">4</p>
+                    </div>
+
+                    <!-- Total Appointments -->
+                    <div class="bg-blue-900 text-white p-4 rounded-lg text-center">
+                        <h3 class="text-lg font-semibold">Appointments Booked</h3>
+                        <p class="text-3xl font-bold">87</p>
+                    </div>
+                </div>
+
+                <!-- Doctor Approvals (Static) -->
+                <div class="bg-blue-900 text-white p-6 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-4">Pending Doctor Requests</h3>
+
+                    <!-- Sample Requests -->
+                    <div class="bg-blue-700 p-4 rounded-md flex justify-between items-center mb-3">
+                        <div>
+                            <p><strong>Name:</strong> Dr. Riya Sharma</p>
+                            <p><strong>Specialization:</strong> Cardiologist</p>
+                            <p><strong>Email:</strong> riya.sharma@example.com</p>
+                        </div>
+                        <div class="space-x-2">
+                            <button class="bg-green-500 px-3 py-1 rounded">Approve</button>
+                            <button class="bg-red-500 px-3 py-1 rounded">Reject</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-700 p-4 rounded-md flex justify-between items-center">
+                        <div>
+                            <p><strong>Name:</strong> Dr. Kunal Verma</p>
+                            <p><strong>Specialization:</strong> Neurologist</p>
+                            <p><strong>Email:</strong> kunal.verma@example.com</p>
+                        </div>
+                        <div class="space-x-2">
+                            <button class="bg-green-500 px-3 py-1 rounded">Approve</button>
+                            <button class="bg-red-500 px-3 py-1 rounded">Reject</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </div>
 </body>
 
 </html>

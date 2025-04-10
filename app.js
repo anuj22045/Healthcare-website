@@ -3,12 +3,19 @@ const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const doctorRoutes = require("./routes/doctorRoutes");
 
+const app = express();
+
+app.use("/uploads", express.static("uploads"));
 const session = require("express-session");
+
+const patientRoutes = require("./routes/patientRoutes"); //patient wala interface ka hai
+
 dotenv.config(); // Load env variables
 const dashboardRoutes = require("./routes/dashboardRoutes");
 
-const app = express();
+// Serve static files from 'uploads' folder
 
 app.use(
   session({
@@ -34,6 +41,10 @@ app.use("/", dashboardRoutes);
 // Routes
 const authRoutes = require("./routes/authRoutes");
 app.use("/", authRoutes);
+
+app.use("/", patientRoutes);
+
+app.use("/", doctorRoutes);
 
 // Server
 const PORT = process.env.PORT || 5000;
