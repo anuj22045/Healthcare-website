@@ -37,7 +37,6 @@ const rejectRequest = async (req, res) => {
   res.redirect("/doctor/prescription-requests");
 };
 
-// ✅ Export all
 module.exports = {
   getDashboard,
   getPrescriptionRequests,

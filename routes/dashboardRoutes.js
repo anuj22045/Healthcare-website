@@ -1,17 +1,16 @@
 const express = require("express");
 const router = express.Router();
+const User = require("../models/user");
 const patientController = require("../controllers/patientController");
 const { ensurePatient } = require("../middleware/auth");
 
-// 🔒 Middleware: Check if user is logged in
+//  Middleware: Check agr user login hai
 const isLoggedIn = (req, res, next) => {
   if (req.session.user) return next();
   res.redirect("/login");
 };
 
-////////////////////////////////////////////////////
-// ✅ DASHBOARDS
-////////////////////////////////////////////////////
+//  DASHBOARDS
 
 router.get("/patient", ensurePatient, patientController.getDashboard);
 
@@ -25,25 +24,37 @@ router.get("/admin", isLoggedIn, (req, res) => {
   res.render("dashboards/admin", { user: req.session.user });
 });
 
-////////////////////////////////////////////////////
-// ✅ PATIENT-SPECIFIC ROUTES
-////////////////////////////////////////////////////
-
-// 📄 Profile (GET + POST)
+//  Profile (GET + POST)
 router.get("/patient/profile", ensurePatient, patientController.getProfile);
 router.post("/patient/profile", ensurePatient, patientController.updateProfile);
 
-// 👨‍⚕️ View Doctors Page
-router.get("/patient/doctors", ensurePatient, (req, res) => {
-  res.render("dashboards/patient/doctors", { user: req.session.user });
+//  View Doctors Page
+// router.get("/patient/doctors", ensurePatient, (req, res) => {
+//   res.render("dashboards/patient/doctors", { user: req.session.user });
+// });
+
+router.get("/patient/doctors", ensurePatient, async (req, res) => {
+  try {
+    const approvedDoctors = await User.find({
+      role: "doctor",
+      isApproved: true,
+    });
+    res.render("dashboards/patient/doctors", {
+      user: req.session.user,
+      doctors: approvedDoctors,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
 });
 
-// 📬 Requests Page
+//  Requests Page
 router.get("/patient/requests", ensurePatient, (req, res) => {
   res.render("dashboards/patient/requests", { user: req.session.user });
 });
 
-// ⚙️ Settings Page
+//  Settings Page
 router.get("/patient/settings", ensurePatient, (req, res) => {
   res.render("dashboards/patient/settings", { user: req.session.user });
 });

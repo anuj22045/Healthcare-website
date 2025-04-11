@@ -15,8 +15,8 @@ const prescriptionRequestSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  report: String, // optional uploaded report path
-  symptomImages: [String], // optional image paths
+  report: String,
+  symptomImages: [String],
   date: {
     type: Date,
     default: Date.now,

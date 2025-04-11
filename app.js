@@ -19,7 +19,7 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 
 app.use(
   session({
-    secret: "mySecretKey123", // ✅ Change this secret key in production
+    secret: "mySecretKey123",
     resave: false,
     saveUninitialized: false,
   })
@@ -49,7 +49,7 @@ app.use("/", doctorRoutes);
 // Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(` Server running at http://localhost:${PORT}`);
 });
 
 //abhi patientside bar me signout ka logic likhe h but wotking nahi h

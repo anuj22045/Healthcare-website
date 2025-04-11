@@ -1,20 +1,9 @@
-// controllers/patientController.js
 const PrescriptionRequest = require("../models/prescriptionRequest");
 const User = require("../models/user");
-// exports.getDashboard = (req, res) => {
-//   const user = req.session.user;
-
-//   // ✅ Check if user is logged in & is a patient
-//   if (!user || user.role !== "patient") {
-//     return res.redirect("/login");
-//   }
-//   // ✅ Send user data to EJS page
-//   res.render("dashboards/patient", { user });
-// };
 
 exports.getProfile = async (req, res) => {
   try {
-    const user = req.session.user; // 👈 user session se le rahe
+    const user = req.session.user;
     if (!user) {
       return res.send("User not logged in");
     }
@@ -22,7 +11,7 @@ exports.getProfile = async (req, res) => {
       user.dob = new Date(user.dob);
     }
 
-    res.render("dashboards/patient/profile", { user }); // 👈 user ko EJS me pass kar rahe
+    res.render("dashboards/patient/profile", { user });
   } catch (error) {
     console.error("Profile render error:", error);
     res.status(500).send("Error loading profile");
@@ -54,10 +43,10 @@ exports.updateProfile = async (req, res) => {
     // Session update
     req.session.user = updatedUser;
 
-    res.redirect("/patient/profile"); // 🔁 wapas profile page
+    res.redirect("/patient/profile"); //  wapas profile page
   } catch (error) {
     console.error("Update error:", error);
-    res.send("❌ Profile update failed.");
+    res.send(" Profile update failed.");
   }
 };
 
@@ -89,10 +78,33 @@ exports.getDashboard = async (req, res) => {
       },
     }).populate("doctor");
 
+    const pastTreatments = await PrescriptionRequest.find({
+      patient: userId,
+      status: "approved",
+      appointmentDate: { $lt: new Date(todayDateOnly) },
+    }).populate("doctor");
+
+    // 👇 Added dynamic request counts
+    const totalRequests = await PrescriptionRequest.countDocuments({
+      patient: userId,
+    });
+    const activeRequests = await PrescriptionRequest.countDocuments({
+      patient: userId,
+      status: "pending",
+    });
+    const prescriptionsIssued = await PrescriptionRequest.countDocuments({
+      patient: userId,
+      status: "approved",
+    });
+
     res.render("dashboards/patient", {
       user,
       age,
       appointment,
+      totalRequests,
+      activeRequests,
+      prescriptionsIssued,
+      pastTreatments,
     });
   } catch (error) {
     console.error("Dashboard Error:", error);

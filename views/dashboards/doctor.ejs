@@ -1,3 +1,4 @@
+//doctor dashboard hai
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,13 +11,11 @@
 <body class="bg-sky-300 min-h-screen font-sans">
     <div class="flex">
 
-        <!-- Sidebar Include -->
+
         <%- include('../partials/doctorSidebar') %>
 
-            <!-- Main Content -->
             <div class="flex-1 p-6 ml-16">
 
-                <!-- Header -->
                 <div class="flex justify-between items-center mb-6">
                     <h1 class="text-3xl font-bold text-purple-900">Doctor Dashboard</h1>
                     <div class="flex items-center gap-4">
@@ -25,7 +24,7 @@
                     </div>
                 </div>
 
-                <!-- Welcome Message -->
+
                 <div class="text-center mb-6">
                     <img src="/images/heartlogin.png" class="w-16 mx-auto" />
                     <h2 class="text-xl font-semibold text-purple-900 font-bold">Welcome Dr. <%= user.name %>
@@ -33,32 +32,32 @@
                     <p class="text-blue-900 ">Hope you're having a great day!</p>
                 </div>
 
-                <!-- Stats Cards -->
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    <!-- Total Prescriptions -->
+
                     <div class="bg-blue-900 text-white p-4 rounded-lg text-center">
                         <h3 class="text-lg font-semibold">Total Prescriptions</h3>
                         <p class="text-3xl font-bold">24</p>
                     </div>
 
-                    <!-- Pending Requests -->
+
                     <div class="bg-blue-900 text-white p-4 rounded-lg text-center">
                         <h3 class="text-lg font-semibold">Pending Requests</h3>
                         <p class="text-3xl font-bold">3</p>
                     </div>
 
-                    <!-- Approved Prescriptions -->
+
                     <div class="bg-blue-900 text-white p-4 rounded-lg text-center">
                         <h3 class="text-lg font-semibold">Approved</h3>
                         <p class="text-3xl font-bold">21</p>
                     </div>
                 </div>
 
-                <!-- Today's Appointments -->
+
                 <div class="bg-blue-900 text-white p-6 rounded-lg">
                     <h3 class="text-lg font-semibold mb-4">Today's Appointments</h3>
 
-                    <!-- Sample Appointment Card -->
+
                     <div class="bg-blue-700 p-4 rounded-md flex justify-between items-center mb-3">
                         <div>
                             <p class="font-semibold">Patient: Anuj Kumar</p>

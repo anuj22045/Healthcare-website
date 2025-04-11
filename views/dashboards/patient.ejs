@@ -8,13 +8,13 @@
 </head>
 
 <body class="bg-sky-200 min-h-screen font-sans">
-    <!-- Sidebar -->
+
     <div class="flex">
         <%- include('../partials/patientSidebar') %>
 
-            <!-- Main Content -->
+
             <div class="flex-1 p-6">
-                <!-- Header -->
+
                 <div class="flex justify-between items-center mb-6">
                     <h1 class="text-3xl font-bold text-purple-900">Dashboard</h1>
                     <div class="flex items-center gap-4">
@@ -24,14 +24,12 @@
                     </div>
                 </div>
 
-                <!-- Welcome -->
                 <div class="text-center mb-6">
                     <img src="/images/heartlogin.png" class="w-16 mx-auto" />
                     <h2 class="text-xl font-semibold text-purple-800">Welcome <%= user.name %>
                     </h2>
                 </div>
 
-                <!-- Grid Layout -->
                 <div class="grid grid-cols-3 gap-6">
                     <!-- Patient Details -->
                     <div class="bg-blue-900 text-white p-4 rounded-lg col-span-1 space-y-2">
@@ -44,10 +42,9 @@
                         </p>
                     </div>
 
-                    <!-- Today Appointment -->
-                    <!-- Today Appointment -->
+
                     <div class="bg-blue-900 text-white p-4 rounded-lg col-span-1">
-                        <h3 class="text-lg font-semibold mb-2">Today</h3>
+                        <h3 class="text-lg font-semibold mb-2">Today Appointment</h3>
                         <div class="flex flex-col items-center">
                             <% if (appointment) { %>
                                 <img src="https://i.ibb.co/xsRnq9g/doctor-icon.png" class="w-14 mb-2" />
@@ -55,7 +52,7 @@
                                     <%= appointment.doctor.name %>
                                 </p>
                                 <p>
-                                    <%= appointment.doctor.specialization || "Specialist" %>
+                                    <%= appointment.doctor.specialization || "General Physician" %>
                                 </p>
                                 <hr class="my-2 border-white border-dashed">
                                 <p>Date: <%= appointment.appointmentDate.toDateString() %>
@@ -72,34 +69,54 @@
                     <!-- Requests -->
                     <div class="bg-blue-900 text-white p-4 rounded-lg col-span-1">
                         <h3 class="text-lg font-semibold mb-2">Requests</h3>
-                        <p>Total Requests Raised: <span class="font-bold">00</span></p>
-                        <p>Total Active Requests: <span class="font-bold">00</span></p>
-                        <p>Prescriptions Issued: <span class="font-bold">00</span></p>
+                        <p>Total Requests Raised: <span class="font-bold">
+                                <%= totalRequests %>
+                            </span></p>
+                        <p>Total Active Requests: <span class="font-bold">
+                                <%= activeRequests %>
+                            </span></p>
+                        <p>Prescriptions Issued: <span class="font-bold">
+                                <%= prescriptionsIssued %>
+                            </span></p>
                     </div>
                 </div>
 
-                <!-- Past Treatments -->
+
                 <div class="bg-blue-900 text-white p-4 rounded-lg mt-6">
                     <h3 class="text-lg font-semibold mb-4">Past Treatments</h3>
-                    <div class="space-y-3">
-                        <div class="bg-blue-700 p-3 rounded-md flex justify-between items-center">
-                            <div>
-                                <p>18 Aug '23</p>
-                                <p>Treatment: <strong>Orthopedic</strong></p>
-                                <p>Doctor: Dr. XYZ</p>
-                            </div>
-                            <button class="bg-white text-blue-900 px-2 py-1 rounded">Note</button>
-                        </div>
 
-                        <div class="bg-blue-700 p-3 rounded-md flex justify-between items-center">
-                            <div>
-                                <p>2 Mar '24</p>
-                                <p>Treatment: <strong>ENT</strong></p>
-                                <p>Doctor: Dr. ABC</p>
+                    <% if (pastTreatments.length===0) { %>
+                        <p class="text-red-200">No past treatments found.</p>
+                        <% } else { %>
+                            <div class="space-y-3">
+                                <% pastTreatments.forEach(treatment=> { %>
+                                    <div class="bg-blue-700 p-3 rounded-md flex justify-between items-center">
+                                        <div>
+                                            <p>
+                                                <%= new Date(treatment.appointmentDate).toLocaleDateString("en-GB", {
+                                                    day: "numeric" , month: "short" , year: "2-digit" }) %>
+                                            </p>
+                                            <p>Treatment: <strong>
+                                                    <%= treatment.issue %>
+                                                </strong></p>
+                                            <p>Doctor: <%= treatment.doctor ? treatment.doctor.name : "N/A" %>
+                                            </p>
+                                        </div>
+
+                                        <!-- Optional: Show report button if report exists -->
+                                        <% if (treatment.report) { %>
+                                            <form action="/view-report/<%= treatment._id %>" method="GET">
+                                                <button class="bg-white text-blue-900 px-2 py-1 rounded">Note</button>
+                                            </form>
+                                            <% } else { %>
+                                                <button
+                                                    class="bg-white text-blue-900 px-2 py-1 rounded cursor-not-allowed opacity-50"
+                                                    disabled>No Report</button>
+                                                <% } %>
+                                    </div>
+                                    <% }) %>
                             </div>
-                            <button class="bg-white text-blue-900 px-2 py-1 rounded">Note</button>
-                        </div>
-                    </div>
+                            <% } %>
                 </div>
             </div>
     </div>

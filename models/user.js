@@ -12,10 +12,13 @@ const userSchema = new mongoose.Schema({
   address: String,
   height: String,
   weight: String,
-  // ✅ Medical Details
   bloodGroup: String,
   allergies: String,
   medicalHistory: String,
+  isApproved: {
+    type: Boolean,
+    default: false, // all doctors are unapproved by default
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

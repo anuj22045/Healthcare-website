@@ -9,14 +9,14 @@ exports.signupUser = async (req, res) => {
   const { name, email, password, role } = req.body;
 
   if (!name || !email || !password || !role) {
-    return res.send("❌ Please fill all fields");
+    return res.send("Please fill all fields");
   }
 
   try {
-    // ✅ Password hash
+    // hash password me convert ho jaega
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // ✅ Create new user
+    // new user create karega
     const user = new User({
       name,
       email,
@@ -26,7 +26,7 @@ exports.signupUser = async (req, res) => {
 
     await user.save();
 
-    // ✅ Set session (safe structure)
+    //  Set session
     req.session.user = {
       _id: user._id,
       name: user.name,
@@ -34,7 +34,7 @@ exports.signupUser = async (req, res) => {
       role: user.role,
     };
 
-    // ✅ Redirect based on role
+    // Redirect krega jo bhi role se login karenge
     if (user.role === "patient") {
       return res.redirect("/patient");
     } else if (user.role === "doctor") {
@@ -42,11 +42,11 @@ exports.signupUser = async (req, res) => {
     } else if (user.role === "admin") {
       return res.redirect("/admin");
     } else {
-      return res.send("❌ Unknown role");
+      return res.send(" Unknown role");
     }
   } catch (err) {
     console.error(err);
-    res.send("❌ Error saving user");
+    res.send(" Error saving user");
   }
 };
 
@@ -54,24 +54,24 @@ exports.signinUser = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.send("❌ Please enter both email and password");
+    return res.send(" Please enter both email and password");
   }
 
   try {
-    // ✅ Find user
+    // user find karega
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.send("❌ Invalid credentials (email)");
+      return res.send(" Invalid credentials (email)");
     }
 
-    // ✅ Match password
+    //  Match password karega
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.send("❌ Invalid credentials (password)");
+      return res.send(" Invalid credentials (password)");
     }
 
-    // ✅ Save user to session (safe version)
+    //
     req.session.user = {
       _id: user._id,
       name: user.name,
@@ -81,7 +81,7 @@ exports.signinUser = async (req, res) => {
 
     // console.log("SESSION SET:", req.session.user);
 
-    // ✅ Redirect
+    //
     if (user.role === "patient") {
       return res.redirect("/patient");
     } else if (user.role === "doctor") {
@@ -89,10 +89,10 @@ exports.signinUser = async (req, res) => {
     } else if (user.role === "admin") {
       return res.redirect("/admin");
     } else {
-      return res.send("❌ Unknown role");
+      return res.send(" Unknown role");
     }
   } catch (error) {
     console.error("Signin Error:", error);
-    res.send("❌ Something went wrong");
+    res.send(" Something went wrong");
   }
 };

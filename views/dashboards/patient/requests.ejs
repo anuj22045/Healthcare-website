@@ -10,17 +10,16 @@
 <body class="bg-sky-300 min-h-screen">
 
     <div class="flex">
-        <!-- Sidebar Include -->
+
         <%- include('../../partials/patientSidebar') %>
 
-            <!-- Main Content Area -->
+
             <div class="flex-1 flex flex-col items-center pt-10 px-6">
-                <!-- Top Heading -->
+
                 <h1 class="text-4xl font-bold text-purple-900 mb-6">MediCare</h1>
 
-                <!-- Prescription Request Form Card -->
                 <div class="bg-purple-800 text-white w-full max-w-xl p-8 rounded-xl shadow-lg relative">
-                    <!-- Doctor Avatar -->
+
                     <img src="/images/Doctor_logo.png" alt="Doctor"
                         class="absolute top-6 right-6 w-16 h-16 rounded-full border-2 border-white" />
 
@@ -28,39 +27,44 @@
                     <h2 class="text-2xl font-bold text-center mb-6">Raise Prescription Request</h2>
 
                     <form action="/patient/request" method="POST" enctype="multipart/form-data" class="space-y-6">
-                        <!-- Select Doctor -->
+
                         <div>
                             <label for="doctor" class="block text-sm mb-1">Select Doctor</label>
                             <select name="doctor" id="doctor" class="w-full px-4 py-2 rounded text-black">
                                 <option value="">Choose</option>
-                                <option value="Dr. Rahul Mehta">Dr. Rahul Mehta</option>
-                                <option value="Dr. Neha Sharma">Dr. Neha Sharma</option>
-                                <option value="Dr. A.K. Verma">Dr. A.K. Verma</option>
-                                <option value="Dr. Priya Singh">Dr. Priya Singh</option>
+                                <% if (doctors && doctors.length) { %>
+                                    <% doctors.forEach(doc=> { %>
+                                        <option value="<%= doc._id %>">Dr. <%= doc.name %>
+                                        </option>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <option disabled>No approved doctors found</option>
+                                                <% } %>
                             </select>
+
                         </div>
 
-                        <!-- Medical Issue -->
+
                         <div>
                             <label for="issue" class="block text-sm mb-1">Describe your medical issue</label>
                             <textarea name="issue" id="issue" rows="3" class="w-full px-4 py-2 rounded text-black"
                                 placeholder="Enter your symptoms..."></textarea>
                         </div>
 
-                        <!-- Upload Test Report -->
+
                         <div>
                             <label class="block text-sm mb-1">Medical test report (if any)</label>
                             <input type="file" name="report" class="w-full bg-white text-black px-3 py-2 rounded" />
                         </div>
 
-                        <!-- Upload Symptom Images -->
+
                         <div>
                             <label class="block text-sm mb-1">Symptom Images (if any)</label>
                             <input type="file" name="symptomImages" multiple
                                 class="w-full bg-white text-black px-3 py-2 rounded" />
                         </div>
 
-                        <!-- Submit Button -->
+
                         <div class="text-center pt-4">
                             <button type="submit"
                                 class="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded text-white font-semibold">
@@ -71,6 +75,17 @@
                 </div>
             </div>
     </div>
+
+    <% if (successMessage) { %>
+        <div class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded shadow-lg z-50">
+            <%= successMessage %>
+        </div>
+        <script>
+            setTimeout(() => {
+                document.querySelector('.fixed').style.display = 'none';
+            }, 3000);
+        </script>
+        <% } %>
 
 </body>
 

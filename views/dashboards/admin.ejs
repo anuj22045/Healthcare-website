@@ -10,14 +10,14 @@
 <body class="bg-sky-200 min-h-screen font-sans">
     <div class="flex">
 
-        <!-- Sidebar Include -->
+
 
         <%- include('../partials/adminSidebar') %>
 
-            <!-- Main Content -->
+
             <div class="flex-1 p-6 ml-16">
 
-                <!-- Header -->
+
                 <div class="flex justify-between items-center mb-6">
                     <h1 class="text-3xl font-bold text-purple-900">Admin Dashboard</h1>
                     <div class="flex items-center gap-4">
@@ -26,7 +26,7 @@
                     </div>
                 </div>
 
-                <!-- Welcome Section -->
+
                 <div class="text-center mb-6">
                     <img src="/images/heartlogin.png" class="w-16 mx-auto" />
                     <h2 class="text-xl font-semibold text-purple-900">Welcome<%= user.name || "Guest" %>
@@ -34,32 +34,31 @@
                     <p class="text-blue-900">Managing the hospital system at a glance!</p>
                 </div>
 
-                <!-- Cards Section -->
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    <!-- Total Users -->
+
                     <div class="bg-blue-900 text-white p-4 rounded-lg text-center">
                         <h3 class="text-lg font-semibold">Total Users</h3>
                         <p class="text-3xl font-bold">120</p>
                     </div>
 
-                    <!-- Pending Doctor Approvals -->
                     <div class="bg-blue-900 text-white p-4 rounded-lg text-center">
                         <h3 class="text-lg font-semibold">Pending Doctor Approvals</h3>
                         <p class="text-3xl font-bold">4</p>
                     </div>
 
-                    <!-- Total Appointments -->
+
                     <div class="bg-blue-900 text-white p-4 rounded-lg text-center">
                         <h3 class="text-lg font-semibold">Appointments Booked</h3>
                         <p class="text-3xl font-bold">87</p>
                     </div>
                 </div>
 
-                <!-- Doctor Approvals (Static) -->
+
                 <div class="bg-blue-900 text-white p-6 rounded-lg">
                     <h3 class="text-lg font-semibold mb-4">Pending Doctor Requests</h3>
 
-                    <!-- Sample Requests -->
+
                     <div class="bg-blue-700 p-4 rounded-md flex justify-between items-center mb-3">
                         <div>
                             <p><strong>Name:</strong> Dr. Riya Sharma</p>

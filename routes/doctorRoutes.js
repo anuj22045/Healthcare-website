@@ -4,9 +4,9 @@ const router = express();
 const doctorController = require("../controllers/doctorController");
 const { isAuthenticated, ensureDoctor } = require("../middleware/auth");
 const { getDashboard } = doctorController;
-// Optional: Debug log (sahi kaam kar raha hai)
-console.log("Doctor Controller:", doctorController);
-console.log("GET DASHBOARD:", doctorController.getDashboard);
+// Debug log (sahi kaam kar raha hai)
+// console.log("Doctor Controller:", doctorController);
+// console.log("GET DASHBOARD:", doctorController.getDashboard);
 
 // console.log(typeof isAuthenticated);
 router.get("/doctor", isAuthenticated, ensureDoctor, getDashboard);
